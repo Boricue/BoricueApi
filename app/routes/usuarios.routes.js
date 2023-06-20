@@ -8,7 +8,7 @@ router.post('/usuarios/', /*userController.isValidToken,*/ userController.create
 router.post('/usuarios/', /*userController.isValidToken,*/ userController.createUserDb);
 
 // R GET
-router.get('/usuarios/', /*userController.isValidToken,*/ userController.getusuarios);
+router.get('/usuarios/', /*userController.isValidToken,*/ userController.getUsers);
 router.get('/usuarios/:id', /*userController.isValidToken,*/ userController.getUser);
 
 // U PUT

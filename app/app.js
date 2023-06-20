@@ -5,9 +5,11 @@ import cors from "cors";
 import enviroments from "./config/enviroments";
 /*import { LoginRouter } from "./routes/login";
 import passport from "passport";*/
-import AllRoutes from "./routes/users.routes.js"
 import cookieParser from "cookie-parser";
 import res from "express/lib/response";
+// RUTAS
+import usuariosRoutes from "./routes/usuarios.routes.js"
+import perrosRoutes from "./routes/usuarios.routes.js"
 
 const app = express();
 
@@ -28,7 +30,8 @@ app.get('/', (req, res) => {
 
 //app.use("/auth", loginRouter);
 
-app.use('/api', AllRoutes);
+app.use('/api', usuariosRoutes);
+app.use('/api', perrosRoutes);
 
 
 export default app;

@@ -12,7 +12,9 @@ initFirebase;
 //Obtener todos los usuarios de la base de datos
 export const getPerros = async (req, res) => {
     try {
-        const result = db.collection('usuario').get();
+        const dog = {id: req.params.id}
+        // Declarar colección
+        const result = db.collection('usuario').doc(dog.id).get();
         result.then((querySnapshot) => {
             const data = [];
             querySnapshot.forEach((doc) => {
@@ -124,4 +126,4 @@ export const addDog = async (req, res) => {
     }
 }
 
-export default createUserAuth;
+export default getPerros;
