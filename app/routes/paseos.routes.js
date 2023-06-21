@@ -1,25 +1,19 @@
 import { Router } from "express";
-import * as userController from "../controllers/perros.controller";
+import * as userController from "../controllers/paseos.controller";
 
 const router = Router();
 
+// C POST
+router.post('/paseo/', /*userController.isValidToken,*/ userController.postPaseo);
+
 // R GET
-
-// TRAER TODOS LOS PASEOS DEL USUARIO
-router.get('/paseos/:id', /*userController.isValidToken,*/ userController.getPerros);
-
-// TRAER UN PASEO ESPECIFICO DEL USUARIO
-router.get('/paseos/:id,:paseo', /*userController.isValidToken,*/ userController.getPerro);
+router.get('/paseo/', /*userController.isValidToken,*/ userController.getTodosPaseos);
+router.get('/paseo/:id', /*userController.isValidToken,*/ userController.getPaseo);
 
 // U PUT
-
-// CREAR UN PASEO EN EL ARRAY DEL USUARIO
-router.post('/anadirPaseo/:id', /*userController.isValidToken,*/ userController.addPerro);
-
-// MODIFICAR UN PERRO DEL USUARIO
-router.put('/actualizarPerro/:id', /*userController.isValidToken,*/ userController.updatePerro);
+router.put('/paseo/:id', /*userController.isValidToken,*/ userController.updatePaseo);
 
 // D Delete
-router.put('/borrarPerro/:id', /*userController.isValidToken,*/ userController.deletePerro);
+router.delete('/paseo/:id', /*userController.isValidToken,*/ userController.deletePaseo);
 
 export default router;
