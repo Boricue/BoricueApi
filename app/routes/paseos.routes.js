@@ -5,16 +5,16 @@ const router = Router();
 
 // R GET
 
-// TRAER TODOS LOS PERROS DEL USUARIO
-router.get('/perros/:id', /*userController.isValidToken,*/ userController.getPerros);
+// TRAER TODOS LOS PASEOS DEL USUARIO
+router.get('/paseos/:id', /*userController.isValidToken,*/ userController.getPerros);
 
-// TRAER UN PERRO ESPECIFICO DEL USUARIO
-router.get('/perros/:id,:perro', /*userController.isValidToken,*/ userController.getPerro);
+// TRAER UN PASEO ESPECIFICO DEL USUARIO
+router.get('/paseos/:id,:paseo', /*userController.isValidToken,*/ userController.getPerro);
 
 // U PUT
 
-// CREAR UN PERRO EN EL ARRAY DEL USUARIO
-router.put('/anadirPerro/:id', /*userController.isValidToken,*/ userController.addPerro);
+// CREAR UN PASEO EN EL ARRAY DEL USUARIO
+router.post('/anadirPaseo/:id', /*userController.isValidToken,*/ userController.addPerro);
 
 // MODIFICAR UN PERRO DEL USUARIO
 router.put('/actualizarPerro/:id', /*userController.isValidToken,*/ userController.updatePerro);
