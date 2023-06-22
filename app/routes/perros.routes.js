@@ -3,23 +3,19 @@ import * as userController from "../controllers/perros.controller";
 
 const router = Router();
 
-// R GET
-
 // TRAER TODOS LOS PERROS DEL USUARIO
-router.get('/perros/:id', /*userController.isValidToken,*/ userController.getPerros);
+router.get('/usuarios/:id/perros', /*userController.isValidToken,*/ userController.getPerros);
 
-// TRAER UN PERRO ESPECIFICO DEL USUARIO
-router.get('/perros/:id,:perro', /*userController.isValidToken,*/ userController.getPerro);
-
-// U PUT
+// TRAER UN PERRO ESPECÍFICO DEL USUARIO
+router.get('/usuarios/:id/perros/:idPerro', /*userController.isValidToken,*/ userController.getPerro);
 
 // CREAR UN PERRO EN EL ARRAY DEL USUARIO
-router.put('/anadirPerro/:id', /*userController.isValidToken,*/ userController.addPerro);
+router.put('/usuarios/:id/perros', /*userController.isValidToken,*/ userController.addPerro);
 
-// MODIFICAR UN PERRO DEL USUARIO
-router.put('/actualizarPerro/:id', /*userController.isValidToken,*/ userController.updatePerro);
+// ACTUALIZAR UN PERRO DEL USUARIO
+router.put('/usuarios/:id/perros/:idPerro', /*userController.isValidToken,*/ userController.updatePerro);
 
-// D Delete
-router.put('/borrarPerro/:id', /*userController.isValidToken,*/ userController.deletePerro);
+// ELIMINAR UN PERRO DEL USUARIO
+router.put('/usuario/:id/perros/:idPerro', /*userController.isValidToken,*/ userController.deletePerro);
 
 export default router;

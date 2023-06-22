@@ -13,7 +13,7 @@ initFirebase;
 export const postPaseo = async (req, res) => {
     try {
         const paseo = {
-            "id": "paseo" + Math.random(),
+            "id": "paseo." + Math.random(),
             "descripcion": req.body.descripcionPaseo,
             "destino": {
                 "_latitude":req.body.paseoLatitude,
@@ -160,17 +160,17 @@ export const updatePaseo = async (req, res) => {
 //Borrar o cancelar un paseo
 export const deletePaseo = async (req, res) => {
     try {
-        const dog = {id: req.params.id}
-        // Declarar colección
-        const result = db.collection('usuario').doc(dog.id).get();
-        result.then((querySnapshot) => {
-            const data = [];
-            querySnapshot.forEach((doc) => {
-                data.push(doc.data());
-            });
-            let jsonData = JSON.stringify(data);
-            res.json(JSON.parse(jsonData));
-        })
+        // Datos del usuario
+        const paseo = { "id": req.params.id }
+
+        // Declarar la colección
+        const paseoRef = db.collection('paseo');
+
+        // Declarar documento y borrarlo
+        const result = await paseoRef.doc(paseo.id).delete();
+
+        res.json(result);
+        message("Se borro el paseo", "success");
     } catch (error) {
         message(error.message, "danger");
         res.status(500);

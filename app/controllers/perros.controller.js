@@ -8,28 +8,58 @@ import jwt from "jsonwebtoken";
 // Inicializar Firebase
 initFirebase;
 
-// R
-//Obtener todos los usuarios de la base de datos
-export const getPerros = async (req, res) => {
+//C
+//añadir un perro al usuario
+export const addPerro = async (req, res) => {
     try {
-        const dog = {id: req.params.id}
+        // Declarar datos del usuario
+        const paseo = {
+            "descripcion": req.body.descripcionPaseo,
+            "destino": {
+                "_latitude":req.body.paseoLatitude,
+                "_longitude": req.body.paseoLongitude,
+            },
+            "dueno": {
+                "id_dueno":req.body.duenoIdPaseo,
+                "img_dueno":req.body.duenoImgPaseo,
+                "nombre_dueno":req.body.duenoNombrePaseo,
+            },
+            "estado": req.body.estadoPaseo,
+            "hora_fin": req.body.horaFinPaseo,
+            "hora_inicio": req.body.horaInicioPaseo,
+            "medio_de_pago": req.body.medioPagoPaseo,
+            "nombre_destino": req.body.nombreDestinoPaseo,
+            "paseador": {
+                "id_paseador":req.body.paseadorIdPaseo,
+                "img_paseador":req.body.paseadorImgPaseo,
+                "nombre_paseador":req.body.paseadorNombrePaseo,
+            },
+            "perro": {
+                "id_perro":req.body.perroIdPaseo,
+                "img_perro":req.body.perroImgPaseo,
+                "localizacion":req.body.perroLocalizacionPaseo,
+                "nombre_perro":req.body.perroNombrePaseo,
+            },
+            "precio": req.body.precioPaseo
+        }
+
         // Declarar colección
-        const result = db.collection('usuario').doc(dog.id).get();
-        result.then((querySnapshot) => {
-            const data = [];
-            querySnapshot.forEach((doc) => {
-                data.push(doc.data());
-            });
-            let jsonData = JSON.stringify(data);
-            res.json(JSON.parse(jsonData));
-        })
+        const paseoRef  = db.collection('paseo');
+
+        // Declarar documento y actualizar los campos con los datos del usuario
+        const result = await paseoRef.doc(req.params.id).update(paseo);
+
+        res.json(result);
+        message("SI SE PUDO", "success");
     } catch (error) {
         message(error.message, "danger");
         res.status(500);
     }
 }
-// Obtener un usuario en particular de la base de datos
-export const getUser = async (req, res) => {
+
+//R
+// Obtener un perro en particular del usuario
+export const getPerro = async (req, res) => {
     try {
         // Declarar datos del usuario
         const id = req.params.id ?? "none";
@@ -53,74 +83,125 @@ export const getUser = async (req, res) => {
     }
 }
 
-// U
-// Actualizar información del usuario
-export const updateUser = async (req, res) => {
+// Obtener todos los perros del usuario
+export const getPerros = async (req, res) => {
     try {
         // Declarar datos del usuario
-        const user = {
-            "id": req.body.id,
-            "nombre": req.body.nombre,
-            "apellidos": req.body.apellidos,
-            "municipio": req.body.municipio,
-            "direccion": req.body.direccion,
-            "telefono": req.body.telefono,
-            "edad": req.body.edad,
-            "pais": req.body.pais
+        const id = req.params.id ?? "none";
+        // Declarar colección
+        const result = db.collection('usuario').doc(id);
+        const doc = await result.get();
+        const data = doc.data();
+        let jsonData = JSON.stringify(data);
+
+        if (doc.exists) {
+            res.json(JSON.parse(jsonData));
+        } else {
+            console.log('No existe este usuario: ' + id);
+            res.json("El usuario " + id + " no existe");
         }
 
-        // Declarar collección
-        const usuariosRef = db.collection('usuario');
+    } catch (error) {
+        console.log(error);
+        message(error.message, "danger");
+        res.status(500);
+    }
+}
+
+//U
+// Actualizar un perro del usuario
+
+export const  updatePerros = async (req, res) => {
+    try {
+        // Declarar datos del usuario
+        const paseo = {
+            "descripcion": req.body.descripcionPaseo,
+            "destino": {
+                "_latitude":req.body.paseoLatitude,
+                "_longitude": req.body.paseoLongitude,
+            },
+            "dueno": {
+                "id_dueno":req.body.duenoIdPaseo,
+                "img_dueno":req.body.duenoImgPaseo,
+                "nombre_dueno":req.body.duenoNombrePaseo,
+            },
+            "estado": req.body.estadoPaseo,
+            "hora_fin": req.body.horaFinPaseo,
+            "hora_inicio": req.body.horaInicioPaseo,
+            "medio_de_pago": req.body.medioPagoPaseo,
+            "nombre_destino": req.body.nombreDestinoPaseo,
+            "paseador": {
+                "id_paseador":req.body.paseadorIdPaseo,
+                "img_paseador":req.body.paseadorImgPaseo,
+                "nombre_paseador":req.body.paseadorNombrePaseo,
+            },
+            "perro": {
+                "id_perro":req.body.perroIdPaseo,
+                "img_perro":req.body.perroImgPaseo,
+                "localizacion":req.body.perroLocalizacionPaseo,
+                "nombre_perro":req.body.perroNombrePaseo,
+            },
+            "precio": req.body.precioPaseo
+        }
+
+        // Declarar colección
+        const paseoRef  = db.collection('paseo');
 
         // Declarar documento y actualizar los campos con los datos del usuario
-        const result = await usuariosRef.doc(user.id).update({
-            nombre: user.nombre,
-            apellidos: user.apellidos,
-            municipio: user.municipio,
-            direccion: user.direccion,
-            telefono: user.telefono,
-            edad: user.edad,
-            pais: user.pais
-        });
+        const result = await paseoRef.doc(req.params.id).update(paseo);
 
         res.json(result);
-        message("Exito", "success");
+        message("SI SE PUDO", "success");
     } catch (error) {
         message(error.message, "danger");
         res.status(500);
     }
 }
 
-//TODO: Terminar las funciones de añadir y borrar perros del usuario
-// Añadir perros al usuario
-export const addDog = async (req, res) => {
+//D
+// Eliminar un perro del usuario
+
+export const deletePerro = async (req, res) => {
     try {
         // Declarar datos del usuario
-        const dog = {
-            "id": req.body.id,
-            "perros": {
-                "nombre": req.body.nombre,
-                "peso": req.body.nombre_peso,
-                "raza": req.body.nombre_raza,
-            //    "img": req.body.nombre_perro,
-                "estatura": req.body.nombre_estatura,
-                "comportamiento": req.body.nombre_comportamiento,
-                "vacunas": req.body.nombre_vacunas,
-                "descripcion": req.body.nombre_descripcion
-            }
+        const paseo = {
+            "descripcion": req.body.descripcionPaseo,
+            "destino": {
+                "_latitude":req.body.paseoLatitude,
+                "_longitude": req.body.paseoLongitude,
+            },
+            "dueno": {
+                "id_dueno":req.body.duenoIdPaseo,
+                "img_dueno":req.body.duenoImgPaseo,
+                "nombre_dueno":req.body.duenoNombrePaseo,
+            },
+            "estado": req.body.estadoPaseo,
+            "hora_fin": req.body.horaFinPaseo,
+            "hora_inicio": req.body.horaInicioPaseo,
+            "medio_de_pago": req.body.medioPagoPaseo,
+            "nombre_destino": req.body.nombreDestinoPaseo,
+            "paseador": {
+                "id_paseador":req.body.paseadorIdPaseo,
+                "img_paseador":req.body.paseadorImgPaseo,
+                "nombre_paseador":req.body.paseadorNombrePaseo,
+            },
+            "perro": {
+                "id_perro":req.body.perroIdPaseo,
+                "img_perro":req.body.perroImgPaseo,
+                "localizacion":req.body.perroLocalizacionPaseo,
+                "nombre_perro":req.body.perroNombrePaseo,
+            },
+            "precio": req.body.precioPaseo
         }
 
-        // Declarar collecciónes
-        const perroRef = db.collection('usuario');
+        // Declarar colección
+        const paseoRef  = db.collection('paseo');
 
         // Declarar documento y actualizar los campos con los datos del usuario
-        // perros: db.FieldValue.arrayUnion(user.perros),
-        const result = await perroRef.doc(dog.id).update({
-            perros: dog.perros
-        });
+        const result = await paseoRef.doc(req.params.id).update(paseo);
 
         res.json(result);
-        message("Exito", "success");
+        message("SI SE PUDO", "success");
     } catch (error) {
         message(error.message, "danger");
         res.status(500);

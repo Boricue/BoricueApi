@@ -9,7 +9,7 @@ import cookieParser from "cookie-parser";
 import res from "express/lib/response";
 // RUTAS
 import usuariosRoutes from "./routes/usuarios.routes.js"
-//import perrosRoutes from "./routes/perros.routes.js"
+import perrosRoutes from "./routes/perros.routes.js"
 import paseosRoutes from "./routes/paseos.routes.js"
 
 const app = express();
@@ -32,7 +32,7 @@ app.get('/', (req, res) => {
 //app.use("/auth", loginRouter);
 
 app.use('/api', usuariosRoutes);
-//app.use('/api', perrosRoutes);
+app.use('/api', perrosRoutes);
 app.use('/api', paseosRoutes);
 
 
