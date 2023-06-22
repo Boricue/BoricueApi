@@ -13,52 +13,47 @@ initFirebase;
 export const postPaseo = async (req, res) => {
     try {
         const paseo = {
-            //"id": "",//
+            "id": "paseo" + Math.random(),
             "descripcion": req.body.descripcionPaseo,
-            "destino": [
-
-            ],
-            "dueno": [
-
-            ],
+            "destino": {
+                "_latitude":req.body.paseoLatitude,
+                "_longitude": req.body.paseoLongitude,
+            },
+            "dueno": {
+                "id_dueno":req.body.duenoIdPaseo,
+                "img_dueno":req.body.duenoImgPaseo,
+                "nombre_dueno":req.body.duenoNombrePaseo,
+            },
             "estado": req.body.estadoPaseo,
             "hora_fin": req.body.horaFinPaseo,
             "hora_inicio": req.body.horaInicioPaseo,
             "medio_de_pago": req.body.medioPagoPaseo,
             "nombre_destino": req.body.nombreDestinoPaseo,
-            "paseador": [
-
-            ],
-            "perro": [
-
-            ],
+            "paseador": {
+                "id_paseador":req.body.paseadorIdPaseo,
+                "img_paseador":req.body.paseadorImgPaseo,
+                "nombre_paseador":req.body.paseadorNombrePaseo,
+            },
+            "perro": {
+                "id_perro":req.body.perroIdPaseo,
+                "img_perro":req.body.perroImgPaseo,
+                "localizacion":req.body.perroLocalizacionPaseo,
+                "nombre_perro":req.body.perroNombrePaseo,
+            },
             "precio": req.body.precioPaseo
         }
-
-        //Declarar colección
+        // Declarar colección
         const paseoRef = db.collection('paseo');
 
-        // Crear el documento, sus campos y llenarlos
-        const result = await paseoRef.doc(paseo.tituloPaseo).set({
-            nombre: user.nombre,
-            apellidos: user.apellidos,
-            calificacion_paseador: user.calificacion_paseador,
-            calificacion_dueno: user.calificacion_dueno,
-            municipio: user.municipio,
-            direccion: user.direccion,
-            telefono: user.telefono,
-            edad: user.edad,
-            pais: user.pais,
-            perros: user.perros,
-            chats: user.chats
-        });
+        // Crear el documento y llenar los campos
+        const result = await paseoRef.doc(paseo.id).set(paseo);
 
         res.json(result);
-        message("Exito", "success");
+        message("¡FUNCIONA!", "success");
     } catch (error) {
         message(error.message, "danger");
         res.status(500);
-}
+    }
 }
 
 // R
