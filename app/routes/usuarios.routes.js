@@ -4,7 +4,7 @@ import * as userController from "../controllers/usuarios.controller";
 const router = Router();
 
 // C POST
-router.post('/usuarios/', /*userController.isValidToken,*/ userController.createUserAuth);
+//router.post('/usuarios/', /*userController.isValidToken,*/ userController.createUserAuth);
 router.post('/usuarios/', /*userController.isValidToken,*/ userController.createUserDb);
 
 // R GET

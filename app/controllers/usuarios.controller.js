@@ -37,7 +37,7 @@ export const createUserDb = async (req, res) => {
         const user = {
             "id": req.body.id,
             "nombre": req.body.nombre,
-            "apellidos": req.body.apellidos,
+            //"apellidos": req.body.apellidos,
             "calificacion_paseador": 0,
             "calificacion_dueno": 0,
             "municipio": req.body.municipio,
@@ -55,7 +55,7 @@ export const createUserDb = async (req, res) => {
         // Crear el documento, sus campos y llenarlos
         const result = await usuariosRef.doc(user.id).set({
             nombre: user.nombre,
-            apellidos: user.apellidos,
+            //apellidos: user.apellidos,
             calificacion_paseador: user.calificacion_paseador,
             calificacion_dueno: user.calificacion_dueno,
             municipio: user.municipio,
@@ -108,7 +108,7 @@ export const getUser = async (req, res) => {
             res.json(JSON.parse(jsonData));
         } else {
             console.log('No existe este usuario: ' + id);
-            res.json("El usuario " + id + " no existe");
+            res.json(false);
         }
 
     } catch (error) {
@@ -126,7 +126,7 @@ export const updateUser = async (req, res) => {
         const user = {
             "id": req.body.id,
             "nombre": req.body.nombre,
-            "apellidos": req.body.apellidos,
+            //"apellidos": req.body.apellidos,
             "municipio": req.body.municipio,
             "direccion": req.body.direccion,
             "telefono": req.body.telefono,
@@ -140,7 +140,7 @@ export const updateUser = async (req, res) => {
         // Declarar documento y actualizar los campos con los datos del usuario
         const result = await usuariosRef.doc(user.id).update({
             nombre: user.nombre,
-            apellidos: user.apellidos,
+            //apellidos: user.apellidos,
             municipio: user.municipio,
             direccion: user.direccion,
             telefono: user.telefono,
@@ -175,7 +175,6 @@ export const addDog = async (req, res) => {
         // Declarar documento y actualizar los campos con los datos del usuario
         const result = await usuariosRef.doc(user.id).update({
             perros: db.FieldValue.arrayUnion(user.perros),
-
         });
 
         res.json(result);

@@ -13,16 +13,16 @@ initFirebase;
 export const postPaseo = async (req, res) => {
     try {
         const paseo = {
-            "id": "paseo." + Math.random(),
+            "id": "paseo" + Math.floor(Math.random() * 99999999) + 1,
             "descripcion": req.body.descripcionPaseo,
             "destino": {
                 "_latitude":req.body.paseoLatitude,
-                "_longitude": req.body.paseoLongitude,
+                "_longitude": req.body.paseoLongitude
             },
             "dueno": {
                 "id_dueno":req.body.duenoIdPaseo,
                 "img_dueno":req.body.duenoImgPaseo,
-                "nombre_dueno":req.body.duenoNombrePaseo,
+                "nombre_dueno":req.body.duenoNombrePaseo
             },
             "estado": req.body.estadoPaseo,
             "hora_fin": req.body.horaFinPaseo,
@@ -32,13 +32,13 @@ export const postPaseo = async (req, res) => {
             "paseador": {
                 "id_paseador":req.body.paseadorIdPaseo,
                 "img_paseador":req.body.paseadorImgPaseo,
-                "nombre_paseador":req.body.paseadorNombrePaseo,
+                "nombre_paseador":req.body.paseadorNombrePaseo
             },
             "perro": {
                 "id_perro":req.body.perroIdPaseo,
                 "img_perro":req.body.perroImgPaseo,
                 "localizacion":req.body.perroLocalizacionPaseo,
-                "nombre_perro":req.body.perroNombrePaseo,
+                "nombre_perro":req.body.perroNombrePaseo
             },
             "precio": req.body.precioPaseo
         }
@@ -60,7 +60,7 @@ export const postPaseo = async (req, res) => {
 //Traer todos los paseos de la base de datos
 export const getTodosPaseos = async (req, res) => {
     try {
-        const paseoId = req.params.id;
+        //const paseoId = req.params.id;
         
         // Obtener la colección de paseos
         const paseosRef = db.collection('paseo');
