@@ -37,11 +37,12 @@ export const createUserDb = async (req, res) => {
         const user = {
             "id": req.body.id,
             "nombre": req.body.nombre,
-            //"apellidos": req.body.apellidos,
-            "calificacion_paseador": 0,
-            "calificacion_dueno": 0,
             "municipio": req.body.municipio,
             "direccion": req.body.direccion,
+            "ubicacion": {
+                "_latitude":req.body.paseoLatitude,
+                "_longitude": req.body.paseoLongitude
+            },
             "telefono": req.body.telefono,
             "edad": req.body.edad,
             "pais": req.body.pais,
@@ -55,11 +56,9 @@ export const createUserDb = async (req, res) => {
         // Crear el documento, sus campos y llenarlos
         const result = await usuariosRef.doc(user.id).set({
             nombre: user.nombre,
-            //apellidos: user.apellidos,
-            calificacion_paseador: user.calificacion_paseador,
-            calificacion_dueno: user.calificacion_dueno,
             municipio: user.municipio,
             direccion: user.direccion,
+            ubicacion: user.ubicacion,
             telefono: user.telefono,
             edad: user.edad,
             pais: user.pais,
@@ -126,9 +125,12 @@ export const updateUser = async (req, res) => {
         const user = {
             "id": req.body.id,
             "nombre": req.body.nombre,
-            //"apellidos": req.body.apellidos,
             "municipio": req.body.municipio,
             "direccion": req.body.direccion,
+            "ubicacion": {
+                "_latitude":req.body.paseoLatitude,
+                "_longitude": req.body.paseoLongitude
+            },
             "telefono": req.body.telefono,
             "edad": req.body.edad,
             "pais": req.body.pais
@@ -140,41 +142,12 @@ export const updateUser = async (req, res) => {
         // Declarar documento y actualizar los campos con los datos del usuario
         const result = await usuariosRef.doc(user.id).update({
             nombre: user.nombre,
-            //apellidos: user.apellidos,
             municipio: user.municipio,
             direccion: user.direccion,
+            ubicacion: user.ubicacion,
             telefono: user.telefono,
             edad: user.edad,
             pais: user.pais
-        });
-
-        res.json(result);
-        message("Exito", "success");
-    } catch (error) {
-        message(error.message, "danger");
-        res.status(500);
-    }
-}
-
-//TODO: Terminar las funciones de añadir y borrar perros del usuario
-// Añadir perros al usuario
-export const addDog = async (req, res) => {
-    try {
-        // Declarar datos del usuario
-        const user = {
-            "id": req.body.id,
-            "perros": {
-                "id_perro": req.body.id_perro,
-                "nombre_perro": req.body.nombre_perro
-            }
-        }
-
-        // Declarar collecciónes
-        const usuariosRef = db.collection('usuario');
-
-        // Declarar documento y actualizar los campos con los datos del usuario
-        const result = await usuariosRef.doc(user.id).update({
-            perros: db.FieldValue.arrayUnion(user.perros),
         });
 
         res.json(result);
@@ -205,7 +178,7 @@ export const deleteUser = async (req, res) => {
     }
 }
 
-export const isValidToken = (req, res, next) => {
+/*export const isValidToken = (req, res, next) => {
 
     // const tokenClient = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJMVUlTIEJFQ0VSUlJBIiwiaWQiOiIxMDQyMzc2MjAxNDg2MTQ0MTA0NDQiLCJlbWFpbCI6ImVsaW5nZW5pZXJvcHJvZmVzb3JAZ21haWwuY29tIiwiaWF0IjoxNjgwMDQzMTQ1LCJleHAiOjE2ODAwNDY3NDV9.CN8oJ3L2Gbc4-HYf9-T2-zTFEyeTMDLe0y4bLAPmGlM";
     const tokenClient = req.cookies.eib_per;
@@ -223,6 +196,6 @@ export const isValidToken = (req, res, next) => {
     } catch (error) {
         res.send({ "error": "El token es errado o ha caducado " })
     }
-}
+}*/
 
 export default createUserAuth;
