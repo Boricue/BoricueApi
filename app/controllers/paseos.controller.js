@@ -14,34 +14,24 @@ export const postPaseo = async (req, res) => {
     try {
         const paseo = {
             "id": "paseo" + Math.floor(Math.random() * 99999999) + 1,
-            "descripcion": req.body.descripcionPaseo,
+            "autor": req.body.autor,
+            "titulo": req.body.titulo,
+            "descripcion": req.body.descripcion,
             "destino": {
-                "_latitude":req.body.paseoLatitude,
-                "_longitude": req.body.paseoLongitude
+                "_latitude":req.body.destino._latitude,
+                "_longitude": req.body.destino._longitude
             },
-            "dueno": {
-                "id_dueno":req.body.duenoIdPaseo,
-                "img_dueno":req.body.duenoImgPaseo,
-                "nombre_dueno":req.body.duenoNombrePaseo
-            },
-            "estado": req.body.estadoPaseo,
-            "hora_fin": req.body.horaFinPaseo,
-            "hora_inicio": req.body.horaInicioPaseo,
-            "medio_de_pago": req.body.medioPagoPaseo,
-            "nombre_destino": req.body.nombreDestinoPaseo,
-            "paseador": {
-                "id_paseador":req.body.paseadorIdPaseo,
-                "img_paseador":req.body.paseadorImgPaseo,
-                "nombre_paseador":req.body.paseadorNombrePaseo
-            },
-            "perro": {
-                "id_perro":req.body.perroIdPaseo,
-                "img_perro":req.body.perroImgPaseo,
-                "localizacion":req.body.perroLocalizacionPaseo,
-                "nombre_perro":req.body.perroNombrePaseo
-            },
-            "precio": req.body.precioPaseo
+            "tipo": req.body.tipo,
+            "nombre_destino": req.body.nombre_destino,
+            "estado": "programado",
+            "hora_fin": req.body.hora_fin,
+            "hora_inicio": req.body.hora_inicio,
+            "precio": req.body.precio,
+            "medio_de_pago": req.body.medio_de_pago,
+            "paseador": req.body.paseador,
+            "perro": req.body.perro
         }
+        console.log(paseo.id);
         // Declarar colección
         const paseoRef = db.collection('paseo');
 
