@@ -24,7 +24,7 @@ export const postReporte = async (req, res) => {
         // Crear el documento y llenar los campos
         const result = await reporteRef.doc(reporte.id).set(reporte);
 
-        res.json(result);
+        console.log(result);
         message("¡FUNCIONA!", "success");
     } catch (error) {
         message(error.message, "danger");

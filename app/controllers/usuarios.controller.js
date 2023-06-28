@@ -9,27 +9,6 @@ import jwt from "jsonwebtoken";
 initFirebase;
 
 // C
-// Crear usuario en Firebase Auth
-export const createUserAuth = async (req, res) => {
-    try {
-        // Declarar datos del usuario
-        const user = {
-            "ilema": req.body.email,
-            "password": req.body.password,
-            "name": req.body.name
-        }
-        // Crear usuario en Authentication con el metodo createUser()
-        const result = await admin.auth().createUser({
-            email: user.email,
-            password: user.password,
-            emailVerified: false,
-            disabled: false
-        });
-        res.json(result);
-    } catch (error) {
-        message(error.message, "danger");
-    }
-}
 // Registrar el nuevo usuario en la base de datos
 export const createUserDb = async (req, res) => {
     try {
@@ -198,4 +177,4 @@ export const deleteUser = async (req, res) => {
     }
 }*/
 
-export default createUserAuth;
+export default createUserDb;
