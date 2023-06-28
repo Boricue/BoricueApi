@@ -11,8 +11,6 @@ import res from "express/lib/response";
 import usuariosRoutes from "./routes/usuarios.routes.js"
 // import perrosRoutes from "./routes/perros.routes.js"
 import paseosRoutes from "./routes/paseos.routes.js"
-import informesRoutes from "./routes/informes.routes"
-import reportesRoutes from "./routes/reportes.routes"
 
 const app = express();
 
@@ -36,8 +34,6 @@ app.get('/', (req, res) => {
 app.use('/api', usuariosRoutes);
 // app.use('/api', perrosRoutes);
 app.use('/api', paseosRoutes);
-app.use('/api', reportesRoutes);
-app.use('/api', informesRoutes);
 
 
 export default app;
