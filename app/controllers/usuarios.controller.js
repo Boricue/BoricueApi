@@ -4,35 +4,32 @@ import { initFirebase } from '../config/database/firebase';
 const db = require('../config/database/firebase');
 var admin = require("firebase-admin");
 import jwt from "jsonwebtoken";
+import { body, validationResult } from 'express-validator';
 
 // Inicializar Firebase
 initFirebase;
 
 // C
-// Crear usuario en Firebase Auth
-export const createUserAuth = async (req, res) => {
-    try {
-        // Declarar datos del usuario
-        const user = {
-            "ilema": req.body.email,
-            "password": req.body.password,
-            "name": req.body.name
-        }
-        // Crear usuario en Authentication con el metodo createUser()
-        const result = await admin.auth().createUser({
-            email: user.email,
-            password: user.password,
-            emailVerified: false,
-            disabled: false
-        });
-        res.json(result);
-    } catch (error) {
-        message(error.message, "danger");
-    }
-}
 // Registrar el nuevo usuario en la base de datos
 export const createUserDb = async (req, res) => {
     try {
+        // Validaciones de express-validator
+        await body('id').notEmpty().exists().isEmail().run(req);
+        await body('nombre').notEmpty().exists().isString().run(req);
+        await body('municipio').notEmpty().exists().isString().run(req);
+        await body('direccion').notEmpty().exists().isString().run(req);
+        await body('paseoLatitude').notEmpty().exists().run(req);
+        await body('paseoLongitude').notEmpty().exists().run(req);
+        await body('telefono').notEmpty().exists().isMobilePhone().run(req);
+        await body('edad').notEmpty().exists().isString().run(req);
+        await body('pais').notEmpty().exists().isString().run(req);
+    
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            message("Error en las validaciones", "danger");
+             return res.status(400).json({ errors: errors.array() });
+        }
+
         // Declarar datos del usuario
         const user = {
             "id": req.body.id,
@@ -121,9 +118,25 @@ export const getUser = async (req, res) => {
 // Actualizar información del usuario
 export const updateUser = async (req, res) => {
     try {
+        
+        // Validaciones de express-validator
+        await body('nombre').notEmpty().exists().isString().run(req);
+        await body('municipio').notEmpty().exists().isString().run(req);
+        await body('direccion').notEmpty().exists().isString().run(req);
+        await body('paseoLatitude').notEmpty().exists().run(req);
+        await body('paseoLongitude').notEmpty().exists().run(req);
+        await body('telefono').notEmpty().exists().isMobilePhone().run(req);
+        await body('edad').notEmpty().exists().isString().run(req);
+        await body('pais').notEmpty().exists().isString().run(req);
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            message("Error en las validaciones", "danger");
+             return res.status(400).json({ errors: errors.array() });
+        }
+
         // Declarar datos del usuario
         const user = {
-            "id": req.body.id,
             "nombre": req.body.nombre,
             "municipio": req.body.municipio,
             "direccion": req.body.direccion,
@@ -198,4 +211,4 @@ export const deleteUser = async (req, res) => {
     }
 }*/
 
-export default createUserAuth;
+export default createUserDb;

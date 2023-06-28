@@ -4,6 +4,7 @@ import { initFirebase } from '../config/database/firebase';
 const db = require('../config/database/firebase');
 var admin = require("firebase-admin");
 import jwt from "jsonwebtoken";
+import { body, validationResult } from 'express-validator';
 
 // Inicializar Firebase
 initFirebase;
@@ -12,8 +13,37 @@ initFirebase;
 //Obtener todos los usuarios de la base de datos
 export const postPaseo = async (req, res) => {
     try {
+        // Validaciones de express-validator
+        await body('autor').notEmpty().exists().isEmail().run(req);
+        await body('titulo').notEmpty().exists().isString().run(req);
+        await body('descripcion').notEmpty().exists().isString().run(req);
+        await body('tipo').notEmpty().exists().isString().run(req);
+        await body('estado').notEmpty().exists().isString().run(req);
+        await body('hora_fin').notEmpty().exists().isString().run(req);
+        await body('hora_inicio').notEmpty().exists().isString().run(req);
+        await body('precio').notEmpty().exists().isString().run(req);
+        await body('medio_de_pago').notEmpty().exists().isString().run(req);
+        await body('paseador').notEmpty().exists().isObject().run(req);
+        await body('perro').notEmpty().exists().isArray().run(req);
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            message("Error en las validaciones", "danger");
+             return res.status(400).json({ errors: errors.array() });
+        }
+
+        // Obtener fecha actual
+        const fechaActual = new Date();
+        // Obtener componentes de la fecha
+        const year = fechaActual.getFullYear();
+        const month = fechaActual.getMonth() + 1;
+        const day = fechaActual.getDate();
+        const hours = fechaActual.getHours();
+        const minutes = fechaActual.getMinutes();
+        const seconds = fechaActual.getSeconds();
+
         const paseo = {
-            "id": "paseo" + Math.floor(Math.random() * 99999999) + 1,
+            "id": `paseo${year}${month}${day}${hours}${minutes}${seconds}`,
             "autor": req.body.autor,
             "titulo": req.body.titulo,
             "descripcion": req.body.descripcion,
@@ -101,6 +131,25 @@ export const getPaseo = async (req, res) => {
 //Modifica un paseo 
 export const updatePaseo = async (req, res) => {
     try {
+        
+        // Validaciones de express-validator
+        await body('autor').notEmpty().exists().isEmail().run(req);
+        await body('titulo').notEmpty().exists().isString().run(req);
+        await body('descripcion').notEmpty().exists().isString().run(req);
+        await body('tipo').notEmpty().exists().isString().run(req);
+        await body('estado').notEmpty().exists().isString().run(req);
+        await body('hora_fin').notEmpty().exists().isString().run(req);
+        await body('hora_inicio').notEmpty().exists().isString().run(req);
+        await body('precio').notEmpty().exists().isString().run(req);
+        await body('medio_de_pago').notEmpty().exists().isString().run(req);
+        await body('paseador').notEmpty().exists().isObject().run(req);
+        await body('perro').notEmpty().exists().isArray().run(req);
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            message("Error en las validaciones", "danger");
+             return res.status(400).json({ errors: errors.array() });
+        }
         // Declarar datos del usuario
         const paseo = {
             "descripcion": req.body.descripcionPaseo,
@@ -108,12 +157,8 @@ export const updatePaseo = async (req, res) => {
                 "_latitude":req.body.paseoLatitude,
                 "_longitude": req.body.paseoLongitude,
             },
-            "dueno": {
-                "id_dueno":req.body.duenoIdPaseo,
-                "img_dueno":req.body.duenoImgPaseo,
-                "nombre_dueno":req.body.duenoNombrePaseo,
-            },
             "estado": req.body.estadoPaseo,
+            "fecha": req.body.fechaPaseo,
             "hora_fin": req.body.horaFinPaseo,
             "hora_inicio": req.body.horaInicioPaseo,
             "medio_de_pago": req.body.medioPagoPaseo,
