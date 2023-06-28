@@ -12,7 +12,6 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 var router = (0, _express.Router)();
 
 // C POST
-router.post('/usuarios/', /*userController.isValidToken,*/userController.createUserAuth);
 router.post('/usuarios/', /*userController.isValidToken,*/userController.createUserDb);
 
 // R GET
@@ -20,7 +19,7 @@ router.get('/usuarios/', /*userController.isValidToken,*/userController.getUsers
 router.get('/usuarios/:id', /*userController.isValidToken,*/userController.getUser);
 
 // U PUT
-router.put('/usuarios/', /*userController.isValidToken,*/userController.updateUser);
+router.put('/usuarios/:id', /*userController.isValidToken,*/userController.updateUser);
 
 // D Delete
 router["delete"]('/usuarios/:id', /*userController.isValidToken,*/userController.deleteUser);
