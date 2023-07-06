@@ -12,7 +12,11 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 var router = (0, _express.Router)();
 
 // C POST
+<<<<<<< HEAD
 //router.post('/usuarios/', /*userController.isValidToken,*/ userController.createUserAuth);
+=======
+router.post('/usuarios/', /*userController.isValidToken,*/userController.createUserAuth);
+>>>>>>> parent of 6319279 (Build para ahorita)
 router.post('/usuarios/', /*userController.isValidToken,*/userController.createUserDb);
 
 // R GET

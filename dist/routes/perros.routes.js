@@ -11,20 +11,23 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 var router = (0, _express.Router)();
 
+// R GET
+
 // TRAER TODOS LOS PERROS DEL USUARIO
-router.get('/usuarios/:id/perros', /*userController.isValidToken,*/userController.getPerros);
+router.get('/perros/:id', /*userController.isValidToken,*/userController.getPerros);
 
-// TRAER UN PERRO ESPECÍFICO DEL USUARIO
-router.get('/usuarios/:id/perros/:idPerro', /*userController.isValidToken,*/userController.getPerro);
+// TRAER UN PERRO ESPECIFICO DEL USUARIO
+router.get('/perros/:id,:perro', /*userController.isValidToken,*/userController.getPerro);
 
-// NOTA: Debido a la inposibilidad de hacer uso de la función arrayUnion() y arrayRemove() de Firebase, estas
-//Funciones fueron incorporadas en el front-end
+// U PUT
 
 // CREAR UN PERRO EN EL ARRAY DEL USUARIO
-//router.put('/usuarios/:id/perros', /*userController.isValidToken,*/ userController.addPerro);
-// ACTUALIZAR UN PERRO DEL USUARIO
-//router.put('/usuarios/:id/perros/:idPerro', /*userController.isValidToken,*/ userController.updatePerro);
-// ELIMINAR UN PERRO DEL USUARIO
-//router.put('/usuario/:id/perros/:idPerro', /*userController.isValidToken,*/ userController.deletePerro);
+router.put('/perros/:id', /*userController.isValidToken,*/userController.addPerro);
+
+// MODIFICAR UN PERRO DEL USUARIO
+router.put('/perros/:id', /*userController.isValidToken,*/userController.updatePerro);
+
+// D Delete
+router["delete"]('/users/:id', /*userController.isValidToken,*/userController.deletePerro);
 var _default = router;
 exports["default"] = _default;

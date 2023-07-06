@@ -4,7 +4,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.updatePerros = exports.getPerros = exports.getPerro = exports.deletePerro = exports["default"] = exports.addPerro = void 0;
+exports.updateUser = exports.getUser = exports.getPerros = exports["default"] = exports.addDog = void 0;
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _message = _interopRequireDefault(require("../config/message"));
@@ -16,74 +16,44 @@ var admin = require("firebase-admin");
 // Inicializar Firebase
 _firebase.initFirebase;
 
-//C
-//añadir un perro al usuario
-var addPerro = /*#__PURE__*/function () {
+// R
+//Obtener todos los usuarios de la base de datos
+var getPerros = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(req, res) {
-    var paseo, paseoRef, result;
+    var dog, result;
     return _regenerator["default"].wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
-          _context.prev = 0;
-          // Declarar datos del usuario
-          paseo = {
-            "descripcion": req.body.descripcionPaseo,
-            "destino": {
-              "_latitude": req.body.paseoLatitude,
-              "_longitude": req.body.paseoLongitude
-            },
-            "dueno": {
-              "id_dueno": req.body.duenoIdPaseo,
-              "img_dueno": req.body.duenoImgPaseo,
-              "nombre_dueno": req.body.duenoNombrePaseo
-            },
-            "estado": req.body.estadoPaseo,
-            "hora_fin": req.body.horaFinPaseo,
-            "hora_inicio": req.body.horaInicioPaseo,
-            "medio_de_pago": req.body.medioPagoPaseo,
-            "nombre_destino": req.body.nombreDestinoPaseo,
-            "paseador": {
-              "id_paseador": req.body.paseadorIdPaseo,
-              "img_paseador": req.body.paseadorImgPaseo,
-              "nombre_paseador": req.body.paseadorNombrePaseo
-            },
-            "perro": {
-              "id_perro": req.body.perroIdPaseo,
-              "img_perro": req.body.perroImgPaseo,
-              "localizacion": req.body.perroLocalizacionPaseo,
-              "nombre_perro": req.body.perroNombrePaseo
-            },
-            "precio": req.body.precioPaseo
-          }; // Declarar colección
-          paseoRef = db.collection('paseo'); // Declarar documento y actualizar los campos con los datos del usuario
-          _context.next = 5;
-          return paseoRef.doc(req.params.id).update(paseo);
-        case 5:
-          result = _context.sent;
-          res.json(result);
-          (0, _message["default"])("SI SE PUDO", "success");
-          _context.next = 14;
-          break;
-        case 10:
-          _context.prev = 10;
-          _context.t0 = _context["catch"](0);
-          (0, _message["default"])(_context.t0.message, "danger");
-          res.status(500);
-        case 14:
+          try {
+            dog = {
+              id: req.params.id
+            }; // Declarar colección
+            result = db.collection('usuario').doc(dog.id).get();
+            result.then(function (querySnapshot) {
+              var data = [];
+              querySnapshot.forEach(function (doc) {
+                data.push(doc.data());
+              });
+              var jsonData = JSON.stringify(data);
+              res.json(JSON.parse(jsonData));
+            });
+          } catch (error) {
+            (0, _message["default"])(error.message, "danger");
+            res.status(500);
+          }
+        case 1:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[0, 10]]);
+    }, _callee);
   }));
-  return function addPerro(_x, _x2) {
+  return function getPerros(_x, _x2) {
     return _ref.apply(this, arguments);
   };
 }();
-
-//R
-// Obtener un perro en particular del usuario
-exports.addPerro = addPerro;
-var getPerro = /*#__PURE__*/function () {
+// Obtener un usuario en particular de la base de datos
+exports.getPerros = getPerros;
+var getUser = /*#__PURE__*/function () {
   var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(req, res) {
     var _req$params$id, id, result, doc, data, jsonData;
     return _regenerator["default"].wrap(function _callee2$(_context2) {
@@ -119,101 +89,98 @@ var getPerro = /*#__PURE__*/function () {
       }
     }, _callee2, null, [[0, 11]]);
   }));
-  return function getPerro(_x3, _x4) {
+  return function getUser(_x3, _x4) {
     return _ref2.apply(this, arguments);
   };
 }();
 
-// Obtener todos los perros del usuario
-exports.getPerro = getPerro;
-var getPerros = /*#__PURE__*/function () {
+// U
+// Actualizar información del usuario
+exports.getUser = getUser;
+var updateUser = /*#__PURE__*/function () {
   var _ref3 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(req, res) {
-    var _req$params$id2, id, result, doc, data, jsonData;
+    var user, usuariosRef, result;
     return _regenerator["default"].wrap(function _callee3$(_context3) {
       while (1) switch (_context3.prev = _context3.next) {
         case 0:
           _context3.prev = 0;
           // Declarar datos del usuario
-          id = (_req$params$id2 = req.params.id) !== null && _req$params$id2 !== void 0 ? _req$params$id2 : "none"; // Declarar colección
-          result = db.collection('usuario').doc(id);
+          user = {
+            "id": req.body.id,
+            "nombre": req.body.nombre,
+            "apellidos": req.body.apellidos,
+            "municipio": req.body.municipio,
+            "direccion": req.body.direccion,
+            "telefono": req.body.telefono,
+            "edad": req.body.edad,
+            "pais": req.body.pais
+          }; // Declarar collección
+          usuariosRef = db.collection('usuario'); // Declarar documento y actualizar los campos con los datos del usuario
           _context3.next = 5;
-          return result.get();
+          return usuariosRef.doc(user.id).update({
+            nombre: user.nombre,
+            apellidos: user.apellidos,
+            municipio: user.municipio,
+            direccion: user.direccion,
+            telefono: user.telefono,
+            edad: user.edad,
+            pais: user.pais
+          });
         case 5:
-          doc = _context3.sent;
-          data = doc.data();
-          jsonData = JSON.stringify(data);
-          if (doc.exists) {
-            res.json(JSON.parse(jsonData));
-          } else {
-            console.log('No existe este usuario: ' + id);
-            res.json("El usuario " + id + " no existe");
-          }
-          _context3.next = 16;
+          result = _context3.sent;
+          res.json(result);
+          (0, _message["default"])("Exito", "success");
+          _context3.next = 14;
           break;
-        case 11:
-          _context3.prev = 11;
+        case 10:
+          _context3.prev = 10;
           _context3.t0 = _context3["catch"](0);
-          console.log(_context3.t0);
           (0, _message["default"])(_context3.t0.message, "danger");
           res.status(500);
-        case 16:
+        case 14:
         case "end":
           return _context3.stop();
       }
-    }, _callee3, null, [[0, 11]]);
+    }, _callee3, null, [[0, 10]]);
   }));
-  return function getPerros(_x5, _x6) {
+  return function updateUser(_x5, _x6) {
     return _ref3.apply(this, arguments);
   };
 }();
 
-//U
-// Actualizar un perro del usuario
-exports.getPerros = getPerros;
-var updatePerros = /*#__PURE__*/function () {
+//TODO: Terminar las funciones de añadir y borrar perros del usuario
+// Añadir perros al usuario
+exports.updateUser = updateUser;
+var addDog = /*#__PURE__*/function () {
   var _ref4 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(req, res) {
-    var paseo, paseoRef, result;
+    var dog, perroRef, result;
     return _regenerator["default"].wrap(function _callee4$(_context4) {
       while (1) switch (_context4.prev = _context4.next) {
         case 0:
           _context4.prev = 0;
           // Declarar datos del usuario
-          paseo = {
-            "descripcion": req.body.descripcionPaseo,
-            "destino": {
-              "_latitude": req.body.paseoLatitude,
-              "_longitude": req.body.paseoLongitude
-            },
-            "dueno": {
-              "id_dueno": req.body.duenoIdPaseo,
-              "img_dueno": req.body.duenoImgPaseo,
-              "nombre_dueno": req.body.duenoNombrePaseo
-            },
-            "estado": req.body.estadoPaseo,
-            "hora_fin": req.body.horaFinPaseo,
-            "hora_inicio": req.body.horaInicioPaseo,
-            "medio_de_pago": req.body.medioPagoPaseo,
-            "nombre_destino": req.body.nombreDestinoPaseo,
-            "paseador": {
-              "id_paseador": req.body.paseadorIdPaseo,
-              "img_paseador": req.body.paseadorImgPaseo,
-              "nombre_paseador": req.body.paseadorNombrePaseo
-            },
-            "perro": {
-              "id_perro": req.body.perroIdPaseo,
-              "img_perro": req.body.perroImgPaseo,
-              "localizacion": req.body.perroLocalizacionPaseo,
-              "nombre_perro": req.body.perroNombrePaseo
-            },
-            "precio": req.body.precioPaseo
-          }; // Declarar colección
-          paseoRef = db.collection('paseo'); // Declarar documento y actualizar los campos con los datos del usuario
+          dog = {
+            "id": req.body.id,
+            "perros": {
+              "nombre": req.body.nombre,
+              "peso": req.body.nombre_peso,
+              "raza": req.body.nombre_raza,
+              //    "img": req.body.nombre_perro,
+              "estatura": req.body.nombre_estatura,
+              "comportamiento": req.body.nombre_comportamiento,
+              "vacunas": req.body.nombre_vacunas
+            }
+          }; // Declarar collecciónes
+          perroRef = db.collection('usuario'); // Declarar documento y actualizar los campos con los datos del usuario
+          // perros: db.FieldValue.arrayUnion(user.perros),
           _context4.next = 5;
-          return paseoRef.doc(req.params.id).update(paseo);
+          return perroRef.doc(dog.id).update({
+            perros: dog.perros
+          });
         case 5:
           result = _context4.sent;
           res.json(result);
-          (0, _message["default"])("SI SE PUDO", "success");
+          (0, _message["default"])("Exito", "success");
           _context4.next = 14;
           break;
         case 10:
@@ -227,75 +194,10 @@ var updatePerros = /*#__PURE__*/function () {
       }
     }, _callee4, null, [[0, 10]]);
   }));
-  return function updatePerros(_x7, _x8) {
+  return function addDog(_x7, _x8) {
     return _ref4.apply(this, arguments);
   };
 }();
-
-//D
-// Eliminar un perro del usuario
-exports.updatePerros = updatePerros;
-var deletePerro = /*#__PURE__*/function () {
-  var _ref5 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(req, res) {
-    var paseo, paseoRef, result;
-    return _regenerator["default"].wrap(function _callee5$(_context5) {
-      while (1) switch (_context5.prev = _context5.next) {
-        case 0:
-          _context5.prev = 0;
-          // Declarar datos del usuario
-          paseo = {
-            "descripcion": req.body.descripcionPaseo,
-            "destino": {
-              "_latitude": req.body.paseoLatitude,
-              "_longitude": req.body.paseoLongitude
-            },
-            "dueno": {
-              "id_dueno": req.body.duenoIdPaseo,
-              "img_dueno": req.body.duenoImgPaseo,
-              "nombre_dueno": req.body.duenoNombrePaseo
-            },
-            "estado": req.body.estadoPaseo,
-            "hora_fin": req.body.horaFinPaseo,
-            "hora_inicio": req.body.horaInicioPaseo,
-            "medio_de_pago": req.body.medioPagoPaseo,
-            "nombre_destino": req.body.nombreDestinoPaseo,
-            "paseador": {
-              "id_paseador": req.body.paseadorIdPaseo,
-              "img_paseador": req.body.paseadorImgPaseo,
-              "nombre_paseador": req.body.paseadorNombrePaseo
-            },
-            "perro": {
-              "id_perro": req.body.perroIdPaseo,
-              "img_perro": req.body.perroImgPaseo,
-              "localizacion": req.body.perroLocalizacionPaseo,
-              "nombre_perro": req.body.perroNombrePaseo
-            },
-            "precio": req.body.precioPaseo
-          }; // Declarar colección
-          paseoRef = db.collection('paseo'); // Declarar documento y actualizar los campos con los datos del usuario
-          _context5.next = 5;
-          return paseoRef.doc(req.params.id).update(paseo);
-        case 5:
-          result = _context5.sent;
-          res.json(result);
-          (0, _message["default"])("SI SE PUDO", "success");
-          _context5.next = 14;
-          break;
-        case 10:
-          _context5.prev = 10;
-          _context5.t0 = _context5["catch"](0);
-          (0, _message["default"])(_context5.t0.message, "danger");
-          res.status(500);
-        case 14:
-        case "end":
-          return _context5.stop();
-      }
-    }, _callee5, null, [[0, 10]]);
-  }));
-  return function deletePerro(_x9, _x10) {
-    return _ref5.apply(this, arguments);
-  };
-}();
-exports.deletePerro = deletePerro;
+exports.addDog = addDog;
 var _default = getPerros;
 exports["default"] = _default;
