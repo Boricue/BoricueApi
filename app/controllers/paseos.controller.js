@@ -1,4 +1,13 @@
- 
+import message from '../config/message';
+import { arrayUnion, arrayRemove } from "firebase/firestore";
+import { initFirebase } from '../config/database/firebase';
+const db = require('../config/database/firebase');
+var admin = require("firebase-admin");
+import jwt from "jsonwebtoken";
+import { body, validationResult } from 'express-validator';
+
+// Inicializar Firebase
+initFirebase;
 
 // C
 //Obtener todos los usuarios de la base de datos
@@ -20,7 +29,7 @@ export const postPaseo = async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             message("Error en las validaciones", "danger");
-            return res.status(400).json({ errors: errors.array() });
+             return res.status(400).json({ errors: errors.array() });
         }
 
         // Obtener fecha actual
